@@ -12,6 +12,7 @@ class Todo {
       completed: false,
     },
   ];
+  isLoaded = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -36,7 +37,7 @@ class Todo {
         this.todos = [...this.todos, ...json];
       })
       .catch((er) => console.log(er.message))
-      .finally(() => console.log('fetch completed', this.todos));
+      .finally(() => (this.isLoaded = true));
   }
 }
 export default new Todo();
