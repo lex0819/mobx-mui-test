@@ -34,4 +34,4 @@ class Counter {
     );
   }
 }
-export default new Counter();
+export default Counter;

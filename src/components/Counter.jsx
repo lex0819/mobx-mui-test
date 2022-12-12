@@ -6,24 +6,60 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
-import count from '../store/counter';
+import RootStore from '../store/RootStore';
 import { observer } from 'mobx-react-lite';
 
-const Counter = observer(() => {
+const Counter = () => {
   return (
-    <div>
+    <>
+      <TableBody>
+        <TableRow
+          sx={{
+            '&:last-child td, &:last-child th': {
+              border: 0,
+            },
+          }}
+        >
+          <TableCell align="left">
+            <Checkbox
+              checked={RootStore.todo.todos[0].completed}
+              onChange={() => RootStore.todo.completeTodo(-2)}
+            />
+          </TableCell>
+          <TableCell align="left">{RootStore.todo.todos[0].title}</TableCell>
+          <TableCell align="right">
+            <IconButton
+              aria-label="delete"
+              onClick={() => RootStore.todo.removeTodo(-2)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+
       <Box mb={5}>
         <Typography variant="h4" gutterBottom>
           Counter component example
         </Typography>
-        {count.prices.map((item) => (
+        {RootStore.counter.prices.map((item) => (
           <TextField
             key={item.id}
             label={item.name}
             color="primary"
             value={item.price}
-            onChange={(event) => count.setPrice(item.id, +event.target.value)}
+            onChange={(event) =>
+              RootStore.counter.setPrice(item.id, +event.target.value)
+            }
             helperText="Enter price"
             InputProps={{
               startAdornment: (
@@ -54,27 +90,30 @@ const Counter = observer(() => {
           mb={3}
         >
           <Typography variant="h6" gutterBottom>
-            counter = {count.counter}
+            counter = {RootStore.counter.counter}
           </Typography>
           <Divider orientation="vertical" flexItem />
           <ButtonGroup
             variant="contained"
             aria-label="outlined primary button group"
           >
-            <Button color="secondary" onClick={() => count.decrement()}>
+            <Button
+              color="secondary"
+              onClick={() => RootStore.counter.decrement()}
+            >
               -
             </Button>
             <Button
               variant="outlined"
               color="error"
-              onClick={() => count.increment()}
+              onClick={() => RootStore.counter.increment()}
             >
               +
             </Button>
             <Button
               variant="contained"
               color="success"
-              onClick={() => count.randomNumber()}
+              onClick={() => RootStore.counter.randomNumber()}
             >
               random
             </Button>
@@ -82,11 +121,11 @@ const Counter = observer(() => {
         </Box>
         <Divider />
         <Typography variant="h6" gutterBottom>
-          Total = {count.total}
+          Total = {RootStore.counter.total}
         </Typography>
       </Box>
       <Divider />
-    </div>
+    </>
   );
-});
-export default Counter;
+};
+export default observer(Counter);

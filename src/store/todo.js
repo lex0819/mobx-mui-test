@@ -40,4 +40,4 @@ class Todo {
       .finally(() => (this.isLoaded = true));
   }
 }
-export default new Todo();
+export default Todo;

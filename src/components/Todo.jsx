@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
-import todosList from '../store/todo';
+import RootStore from '../store/RootStore';
 import { observer } from 'mobx-react-lite';
 
 const Todo = observer(() => {
@@ -24,14 +24,17 @@ const Todo = observer(() => {
       </Typography>
       <Button
         variant="outlined"
-        onClick={() => todosList.fetchTodo()}
+        onClick={() => RootStore.todo.fetchTodo()}
         startIcon={<CloudDownloadIcon />}
-        disabled={todosList.isLoaded}
+        disabled={RootStore.todo.isLoaded}
       >
         Get Todos
       </Button>
       <Typography variant="text" gutterBottom={true} ml={2}>
-        Completed <strong>{todosList.countCompletedTodos}</strong> Todos
+        Completed <strong>{RootStore.todo.countCompletedTodos}</strong> Todos
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        counter = {RootStore.counter.counter}
       </Typography>
       <Box mt={4}>
         <TableContainer component={Paper} mt={3}>
@@ -44,7 +47,7 @@ const Todo = observer(() => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {todosList.todos.map((item) => {
+              {RootStore.todo.todos.map((item) => {
                 return (
                   <TableRow
                     key={item.id}
@@ -57,14 +60,14 @@ const Todo = observer(() => {
                     <TableCell align="left">
                       <Checkbox
                         checked={item.completed}
-                        onChange={() => todosList.completeTodo(item.id)}
+                        onChange={() => RootStore.todo.completeTodo(item.id)}
                       />
                     </TableCell>
                     <TableCell align="left">{item.title}</TableCell>
                     <TableCell align="right">
                       <IconButton
                         aria-label="delete"
-                        onClick={() => todosList.removeTodo(item.id)}
+                        onClick={() => RootStore.todo.removeTodo(item.id)}
                       >
                         <DeleteIcon />
                       </IconButton>
